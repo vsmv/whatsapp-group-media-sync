@@ -318,4 +318,4 @@ direct-sync/
 
 ---
 
-*Built by Venki (@vsmv) — MIT License*
+## 9. HISTORY LOADING — NOT SUPPORTED\n\nProgrammatic loading of older WhatsApp message history was investigated and dropped.\n\n**Why:** WhatsApp Web's linked device protocol does not expose any API for loading\nmessages beyond the initial ~50 recent messages per chat.\n\n**Tested methods (ALL FAILED):**\n- DOM scroll (element.scrollTop = 0)\n- CDP Input.dispatchMouseEvent (mouseWheel)\n- Keyboard PageUp/Home\n- Internal API: chat.msgs.fetch() — does not exist\n- Internal API: chat.loadEarlierMsgs() — does not exist\n- Module: WAWebHistorySync — not found\n- Module: WAWebBackendJobs — not found\n\n**Current capability:**\n- Captures all currently loaded messages (~50 per group)\n- Captures new messages in real-time (every 13 min scan)\n- If user manually scrolls up in Edge, app captures on next pass\n\n---\n\n*Built by Venki (@vsmv) — MIT License*
