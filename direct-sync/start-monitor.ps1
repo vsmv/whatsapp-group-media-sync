@@ -12,7 +12,7 @@ function Test-Port($port) {
 
 # Only launch Edge if debug port NOT already open
 if (-not (Test-Port $DebugPort)) {
-    Start-Process -FilePath $EdgePath -ArgumentList "--remote-debugging-port=$DebugPort","--remote-allow-origins=*","--user-data-dir=$env:LOCALAPPDATA\Microsoft\Edge\User Data"
+    Start-Process -FilePath $EdgePath -ArgumentList "--remote-debugging-port=$DebugPort","--remote-allow-origins=*"
     for ($i = 1; $i -le 30; $i++) { Start-Sleep 2; if (Test-Port $DebugPort) { break } }
 }
 

@@ -1,7 +1,7 @@
 @echo off
 title WhatsApp-MEGA Sync
 echo Starting Edge (restores last session)...
-start "" "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --remote-debugging-port=9222 --remote-allow-origins=* --user-data-dir="%LOCALAPPDATA%\Microsoft\Edge\User Data"
+start "" "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --remote-debugging-port=9222 --remote-allow-origins=*
 timeout /t 10 /nobreak >nul
 echo Starting sync app...
 cd /d "C:\D\Whatsapp Sync\direct-sync"

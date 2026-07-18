@@ -28,7 +28,7 @@ function launchEdge() {
   try {
     const { exec } = require("child_process");
     const edge = '"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"';
-    const args = ' --remote-debugging-port=' + BROWSER_PORT + ' --remote-allow-origins=* --user-data-dir="' + (process.env.LOCALAPPDATA || 'C:\\Users\\Admin\\AppData\\Local') + '\\Microsoft\\Edge\\User Data" https://web.whatsapp.com';
+    const args = ' --remote-debugging-port=' + BROWSER_PORT + ' --remote-allow-origins=* "' + (process.env.LOCALAPPDATA || 'C:\\Users\\Admin\\AppData\\Local') + '\\Microsoft\\Edge\\User Data" https://web.whatsapp.com';
     plog("[edge] Auto-launching Edge browser...");
     exec(edge + args, () => {});
   } catch(_) {}
