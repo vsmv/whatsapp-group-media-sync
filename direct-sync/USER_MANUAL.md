@@ -141,7 +141,7 @@ C:\D\Whatsapp Sync\direct-sync\logs\sync.log
 
 ---
 
-## 8. Configuration (.env)
+## 9. Configuration (.env)
 
 ```env
 BROWSER_PORT=9222
@@ -157,7 +157,7 @@ DASHBOARD_PASS=
 
 ---
 
-## 9. PM2 Commands
+## 10. PM2 Commands
 
 ```
 pm2 start ecosystem.config.js     # Start
@@ -170,7 +170,7 @@ pm2 save                          # Save for auto-resurrect
 
 ---
 
-## 10. Task Scheduler
+## 11. Task Scheduler
 
 ```
 schtasks /query /tn "WhatsApp-MEGA-Sync"   # Check
