@@ -14,3 +14,7 @@ package-lock.json
 
 direct-sync/logs/
 direct-sync/ecosystem.config.js
+
+# Root convenience copies (canonical in direct-sync/)
+start-whatsapp-sync.bat
+start-whatsapp-sync-silent.vbs
