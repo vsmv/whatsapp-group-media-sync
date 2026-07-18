@@ -4,7 +4,7 @@
 
 ---
 
-## 1. Auto-Start (On Laptop Boot)
+## ⚠️ MANDATORY: Edge Browser Rule\n\n> The system MUST ALWAYS use the user's EXISTING Edge browser instance with WhatsApp Web.\n> Edge launch MUST include --user-data-dir flag (pointing to default profile).\n> Without this flag, Edge 150+ silently refuses to open the debug port.\n> NEVER use a separate browser profile — WhatsApp Web session must persist.\n\n---\n\n## 1. Auto-Start (On Laptop Boot)
 
 ### How it works:
 ```
@@ -123,7 +123,7 @@ pm2 restart wa-mega-sync
 ```
 Wait 60s, then refresh http://localhost:3000
 
-### Edge connection error:
+### Edge connection error (port 9222 closed):\n**Most common cause:** Edge launched without --user-data-dir flag.\n**Fix:** Kill all Edge, relaunch with:\n`\ntaskkill /F /IM msedge.exe /T\nStart-Process -FilePath "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList "--remote-debugging-port=9222","--remote-allow-origins=*","--user-data-dir=$env:LOCALAPPDATA\Microsoft\Edge\User Data","https://web.whatsapp.com"\n`\nWait 15s, then restart app: pm2 restart wa-mega-sync\n\n### Other Edge connection error:
 App auto-relaunches Edge after 3 retries. If still failing:
 ```
 "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --remote-debugging-port=9222 --remote-allow-origins=* https://web.whatsapp.com

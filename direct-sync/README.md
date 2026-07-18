@@ -27,7 +27,7 @@ Automatically captures media from WhatsApp groups and uploads directly to MEGA c
 
 ---
 
-## Architecture
+## ⚠️ MANDATORY: Always Use Existing WhatsApp Instance\n\n> The system MUST connect to the user's running Edge browser with WhatsApp Web.\n> Edge launch MUST include --user-data-dir (default profile) for debug port to work.\n> See [SYSTEM_DESIGN.md](SYSTEM_DESIGN.md) for full architecture and mandatory rules.\n\n---\n\n## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────┐
