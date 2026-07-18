@@ -1,0 +1,1 @@
+{"name":"wa-mega-direct","version":"1.0.0","description":"Direct WhatsApp to MEGA sync with dashboard","main":"src/app.js","type":"commonjs","scripts":{"start":"node src/app.js"},"dependencies":{"puppeteer-core":"*","megajs":"*","dotenv":"*","express":"*"}}

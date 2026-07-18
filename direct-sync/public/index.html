@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp to MEGA Sync</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;padding:20px}
+.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.hdr h1{font-size:20px;background:linear-gradient(135deg,#00d4ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bdg{padding:4px 10px;border-radius:14px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px}
+.bdg .d{width:6px;height:6px;border-radius:50%}
+.bdg.ok{background:#1a3a1a;color:#4ade80}.bdg.ok .d{background:#4ade80}
+.bdg.no{background:#3a1a1a;color:#f87171}.bdg.no .d{background:#f87171}
+.bdg.wt{background:#2a2a1a;color:#fbbf24}.bdg.wt .d{background:#fbbf24}
+.btn{padding:7px 14px;border-radius:8px;border:1px solid #3a3d47;background:#1e2130;color:#e0e0e0;cursor:pointer;font-size:12px;font-weight:600}
+.btn:hover{background:#2a2d3f}
+.btn-go{background:linear-gradient(135deg,#00d4ff20,#7b2ff720);border-color:#00d4ff60}
+.eb{margin-bottom:14px;display:none;background:#3a1a1a;border:1px solid #f8717140;border-radius:8px;padding:10px 14px;color:#f87171;font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px}
+.card{background:#1a1d27;border-radius:10px;padding:14px;border:1px solid #2a2d37}
+.card .l{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.card .v{font-size:26px;font-weight:700;font-family:'Courier New',monospace}
+.card .s{font-size:10px;color:#444;margin-top:2px}
+.c-dl .v{color:#00d4ff}.c-up .v{color:#4ade80}.c-dp .v{color:#a78bfa}
+.c-fl .v{color:#f87171}.c-q .v{color:#fbbf24}.c-ut .v{color:#60a5fa}.c-del .v{color:#fb923c}
+.pw{background:#1a1d27;border-radius:10px;padding:14px;margin-bottom:16px;border:1px solid #2a2d37}
+.pb{height:5px;background:#2a2d37;border-radius:3px;overflow:hidden;margin-top:8px}
+.pf{height:100%;background:linear-gradient(90deg,#00d4ff,#4ade80);transition:width .5s}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:900px){.tc{grid-template-columns:1fr}}
+.pn{background:#1a1d27;border-radius:10px;padding:14px;border:1px solid #2a2d37}
+.pn h2{font-size:13px;margin-bottom:12px;color:#777}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:5px 8px;color:#444;border-bottom:1px solid #2a2d37;font-size:10px}
+td{padding:5px 8px;border-bottom:1px solid #1e2130}
+.le{font-size:10px;padding:2px 0;font-family:monospace;color:#777;line-height:1.4}
+.le .t{color:#333}.le .ok{color:#4ade80}.le .fail{color:#f87171}.le .skip{color:#a78bfa}.le .del{color:#fb923c}
+.mo{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;justify-content:center;align-items:center}
+.mo.show{display:flex}
+.md{background:#1a1d27;border-radius:12px;padding:20px;max-width:800px;width:95%;max-height:85vh;overflow-y:auto;border:1px solid #3a3d47}
+.mrow{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#14161e;border-radius:8px;margin-bottom:8px;border:1px solid #2a2d37}
+.mrow .lbl{font-size:13px;font-weight:600}
+.mrow .sub{font-size:10px;color:#666;margin-top:2px}
+.sw{position:relative;width:44px;height:24px;background:#3a3d47;border-radius:12px;cursor:pointer;transition:background .2s;flex-shrink:0}
+.sw.on{background:#22c55e}.sw.del{background:#f87171}
+.sw .k{position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s}
+.sw.on .k,.sw.del .k{transform:translateX(20px)}
+.si{width:100%;padding:8px 12px;border-radius:8px;border:1px solid #3a3d47;background:#14161e;color:#e0e0e0;font-size:13px;margin-bottom:12px}
+.si:focus{outline:none;border-color:#00d4ff}
+.gi{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:6px;background:#14161e;margin-bottom:4px;gap:8px}
+.gi:hover{background:#1e2130}
+.gi .gn{font-size:12px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gi.off{opacity:0.4}
+.gi .toggles{display:flex;gap:12px;align-items:center;flex-shrink:0}
+.gi .tl{font-size:9px;color:#555;text-transform:uppercase}
+.gsm{font-size:11px;color:#666;margin-bottom:10px}
+.ri{text-align:center;font-size:10px;color:#333;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="hdr">
+<h1>WhatsApp to MEGA Sync</h1>
+<div class="hdr-r"><span id="bdg"></span><button class="btn btn-go" onclick="openGC()">Group Config</button></div>
+</div>
+<div class="eb" id="err"></div>
+<div class="cards" id="cards"></div>
+<div class="pw"><div style="display:flex;justify-content:space-between"><span style="color:#777;font-size:12px">Progress</span><span id="pt" style="color:#444;font-size:11px"></span></div><div class="pb"><div class="pf" id="pfill" style="width:0%"></div></div></div>
+<div class="tc">
+<div class="pn"><h2>Groups</h2><div style="max-height:350px;overflow-y:auto"><table><thead><tr><th>Group</th><th style="text-align:right">DL</th><th style="text-align:right">UP</th><th style="text-align:right">Del</th><th style="text-align:right">F</th></tr></thead><tbody id="gtb"></tbody></table></div></div>
+<div class="pn"><h2>Activity</h2><div id="al" style="max-height:350px;overflow-y:auto"></div></div>
+</div>
+<div class="ri">Auto-refresh 3s | <span id="lu"></span></div>
+<div class="mo" id="modal"><div class="md">
+<div style="display:flex;justify-content:space-between;margin-bottom:14px"><b style="font-size:16px">Group Config</b><button class="btn" onclick="closeGC()">Close</button></div>
+<div class="mrow"><div><div class="lbl">Sync (Backup) - Master</div><div class="sub">ON = all groups download+upload | OFF = stop all</div></div><div class="sw on" id="msw" onclick="toggleMSync()"><div class="k"></div></div></div>
+<div class="mrow"><div><div class="lbl">Auto-Delete - Master</div><div class="sub">ON = delete from WhatsApp after MEGA upload | OFF = keep</div></div><div class="sw" id="mdw" onclick="toggleMDel()"><div class="k"></div></div></div>
+<input type="text" class="si" id="search" placeholder="Search groups..." oninput="filterG()">
+<div class="gsm" id="gsum"></div>
+<div id="glist"></div>
+</div></div>
+<script>
+var allG=[];
+async function refresh(){
+try{
+var d=await(await fetch("/api/stats")).json();
+document.getElementById("bdg").innerHTML=(d.mega?'<span class="bdg ok"><span class="d"></span>MEGA</span>':'<span class="bdg no"><span class="d"></span>MEGA</span>')+(d.wa?'<span class="bdg ok"><span class="d"></span>WA</span>':'<span class="bdg wt"><span class="d"></span>WA</span>');
+var up=d.uptime||0,h=Math.floor(up/3600),m=Math.floor((up%3600)/60);
+document.getElementById("cards").innerHTML=
+'<div class="card c-dl"><div class="l">Downloaded</div><div class="v">'+d.downloaded+'</div><div class="s">'+d.groups+' groups</div></div>'+
+'<div class="card c-up"><div class="l">Uploaded</div><div class="v">'+d.uploaded+'</div><div class="s">'+d.speed+'/min</div></div>'+
+'<div class="card c-dp"><div class="l">Dup Prevented</div><div class="v">'+(d.dedupSkipped||0)+'</div><div class="s">'+(d.dedupHashes||0)+' hashes</div></div>'+
+'<div class="card c-del"><div class="l">Deleted WA</div><div class="v">'+(d.deleted||0)+'</div><div class="s">'+(d.masterDelete?"ACTIVE":"OFF")+'</div></div>'+
+'<div class="card c-fl"><div class="l">Failed</div><div class="v">'+d.failed+'</div><div class="s">'+d.skipped+' dup</div></div>'+
+'<div class="card c-q"><div class="l">Queue</div><div class="v">'+d.queue+'</div><div class="s">'+(d.queue>0?"Busy":"Idle")+'</div></div>'+
+'<div class="card c-ut"><div class="l">Uptime</div><div class="v">'+h+'h</div><div class="s">'+m+'m '+(d.retries||0)+' ret</div></div>';
+var tot=d.downloaded,dn=d.uploaded+d.failed+d.skipped+(d.dedupSkipped||0),pct=tot>0?Math.round(dn/tot*100):0;
+document.getElementById("pfill").style.width=pct+"%";document.getElementById("pt").textContent=dn+"/"+tot+" ("+pct+"%)";
+var err=document.getElementById("err");if(d.lastError&&d.lastError.length>1){err.style.display="block";err.textContent="Error: "+d.lastError}else{err.style.display="none"}
+var tb="";
+Object.entries(d.groupStats).sort(function(a,b){return(b[1].dl+b[1].up)-(a[1].dl+a[1].up)}).slice(0,20).forEach(function(n){var nm=n[0],s=n[1];tb+="<tr><td title='"+nm+"'>"+(nm.length>26?nm.slice(0,24)+"..":nm)+"</td><td style='text-align:right;color:#00d4ff'>"+s.dl+"</td><td style='text-align:right;color:#4ade80'>"+s.up+"</td><td style='text-align:right;color:#fb923c'>"+(s.del||0)+"</td><td style='text-align:right;color:"+(s.fail>0?"#f87171":"#333")+"'>"+s.fail+"</td></tr>"});
+document.getElementById("gtb").innerHTML=tb;
+var lg="";d.activity.slice(0,25).forEach(function(a){var c=a.ok?(a.type=="skip"?"skip":a.type=="del"?"del":"ok"):"fail";var i=a.type=="up"?"\u2191":a.type=="skip"?"\u229d":a.type=="del"?"\u2717":"\u2193";lg+="<div class='le'><span class='t'>"+a.time+"</span> <span class='"+c+"'>"+i+"</span> "+a.text+"</div>"});document.getElementById("al").innerHTML=lg;
+document.getElementById("lu").textContent="Updated "+new Date().toLocaleTimeString();
+}catch(e){document.getElementById("lu").textContent="Error"}
+}
+async function openGC(){document.getElementById("modal").classList.add("show");await loadG()}
+function closeGC(){document.getElementById("modal").classList.remove("show")}
+async function loadG(){
+var s=await(await fetch("/api/stats")).json();
+var sw=document.getElementById("msw");sw.className="sw"+(s.masterSync?" on":"");
+var dw=document.getElementById("mdw");dw.className="sw"+(s.masterDelete?" del":"");
+var d=await(await fetch("/api/groups-list")).json();allG=d.groups;renderG(allG);
+}
+function renderG(groups){
+var act=groups.filter(function(g){return g.active}).length;
+var del=groups.filter(function(g){return g.deleteEnabled}).length;
+document.getElementById("gsum").textContent=act+" sync ON / "+del+" delete ON / "+groups.length+" shown";
+var h="";groups.forEach(function(g){var sn=g.name.replace(/'/g,"\\");
+h+="<div class='gi"+(g.active?"":" off")+"'><span class='gn' title='"+g.name+"'>"+g.name+"</span><div class='toggles'>";
+h+="<span class='tl'>Sync</span><div class='sw"+(g.active?" on":"")+"' onclick=\"tg('"+sn+"')\"><div class='k'></div></div>";
+h+="<span class='tl' style='margin-left:8px'>Del</span><div class='sw"+(g.deleteEnabled?" del":"")+"' onclick=\"tdg('"+sn+"')\"><div class='k'></div></div>";
+h+="</div></div>"});document.getElementById("glist").innerHTML=h;
+}
+function filterG(){var q=document.getElementById("search").value.toLowerCase();renderG(allG.filter(function(g){return g.name.toLowerCase().indexOf(q)>=0}))}
+async function toggleMSync(){await fetch("/api/toggle-master-sync",{method:"POST"});await loadG()}
+async function toggleMDel(){await fetch("/api/toggle-master-delete",{method:"POST"});await loadG()}
+async function tg(name){await fetch("/api/toggle-group",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name})});await loadG()}
+async function tdg(name){await fetch("/api/toggle-delete-group",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name})});await loadG()}
+refresh();setInterval(refresh,3000);
+</script>
+</body>
+</html>

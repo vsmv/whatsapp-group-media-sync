@@ -1,0 +1,16 @@
+node_modules/
+staging/
+data/
+.env
+.env.local
+*.log
+.kilo/
+.wwebjs_cache/
+direct-sync/node_modules/
+direct-sync/data/
+src/
+package.json
+package-lock.json
+
+direct-sync/logs/
+direct-sync/ecosystem.config.js
