@@ -12,7 +12,7 @@ Automatically captures media from WhatsApp groups and uploads directly to MEGA c
 |---------|-------------|
 | **Direct Upload** | WhatsApp Web to memory to MEGA. No local staging folder. |
 | **Content Dedup** | SHA256 hash prevents same image uploading twice across ANY group. ~86% duplicate rate eliminated. |
-| **Group Config** | Master + per-group toggles for Sync (backup) and Delete (auto-clean). Search box to find groups. |
+| **Group Config** | Master + per-group Sync/Delete toggles + permanent Remove/Restore button + search. Excluded groups persist across restarts. |
 | **Live Dashboard** | Real-time stats at http://localhost:3000 with per-group breakdown and activity log. |
 | **Thumbnail Generation** | 200px JPEG thumbnails generated in-browser for MEGA grid view. |
 | **Self-Healing Startup** | PowerShell monitor launches Edge, waits for debug port, starts PM2, verifies health. Auto-relaunches Edge if it crashes. |
@@ -27,7 +27,7 @@ Automatically captures media from WhatsApp groups and uploads directly to MEGA c
 
 ---
 
-## ⚠️ MANDATORY: Always Use Existing WhatsApp Instance\n\n> The system MUST connect to the user's running Edge browser with WhatsApp Web.\n> Edge launch MUST include --user-data-dir (default profile) for debug port to work.\n> See [SYSTEM_DESIGN.md](SYSTEM_DESIGN.md) for full architecture and mandatory rules.\n\n---\n\n## Architecture
+## ⚠️ MANDATORY: Always Use Existing WhatsApp Instance\n\n> The system MUST connect to the user's running Edge browser with WhatsApp Web.\n> Edge launch MUST include --user-data-dir (default profile) for debug port to work.\n> See [SYSTEM_DESIGN.md](SYSTEM_DESIGN.md) for architecture, [MAINTENANCE.md](MAINTENANCE.md) for upgrades.\n\n---\n\n## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -107,7 +107,7 @@ direct-sync/
 ├── start-silent.vbs        # Silent start (calls PowerShell monitor)
 ├── start-monitor.ps1       # Robust startup monitor (Edge wait + health check + notify)
 ├── package.json            # Dependencies
-├── README.md               # This file
+├── README.md               # This file\n├── USER_MANUAL.md          # End-user guide\n├── SYSTEM_DESIGN.md        # Architecture + mandatory rules\n├── MAINTENANCE.md           # Upgrade guide + API monitoring\n└── RASPBERRY_PI_DEPLOYMENT.md # 24/7 Pi setup guide
 └── USER_MANUAL.md          # Complete user guide
 ```
 
