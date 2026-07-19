@@ -290,6 +290,44 @@ restart_delay: 10000                 // 10s between restarts
 
 ---
 
+## 7.5 UPGRADE PROCEDURE
+
+### Standard upgrade (safe, preserves all data):
+`ash
+cd C:\D\Whatsapp Sync
+git pull origin master
+cd direct-sync
+npm install
+pm2 restart wa-mega-sync
+``n### What is preserved:
+- .env (MEGA credentials) — not in git
+- data/hashes.json (SHA256 dedup cache) — runtime data
+- data/excluded.json (permanently excluded groups) — runtime data
+- WhatsApp Web session in Edge — browser not affected
+- MEGA cloud files — permanent storage
+
+### What resets to defaults:
+- Master sync/delete toggles (in-memory only)
+- Per-group sync/delete toggles (in-memory only)
+- Excluded groups are preserved (persisted to excluded.json)
+
+### Rollback procedure:
+`ash
+cd C:\D\Whatsapp Sync
+git log --oneline -5
+git checkout <commit-hash> -- direct-sync/
+pm2 restart wa-mega-sync
+``n
+### Weekly health check (automated):
+- Task: WhatsApp-Weekly-HealthCheck
+- Schedule: Every Sunday 9:00 AM
+- Checks: app health, MEGA, WhatsApp, Edge port, disk space
+- Auto-fix: restarts app if unhealthy
+- Notification: Windows balloon (pass/fail)
+- Log: logs/health-check.log
+
+---
+
 ## 8. FILE STRUCTURE
 
 ```
