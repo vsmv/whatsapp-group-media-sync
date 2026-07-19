@@ -141,7 +141,7 @@ C:\D\Whatsapp Sync\direct-sync\logs\sync.log
 
 ---
 
-## 9. Configuration (.env)
+## 10. Configuration (.env)
 
 ```env
 BROWSER_PORT=9222
@@ -157,7 +157,7 @@ DASHBOARD_PASS=
 
 ---
 
-## 10. PM2 Commands
+## 11. PM2 Commands
 
 ```
 pm2 start ecosystem.config.js     # Start
@@ -170,13 +170,51 @@ pm2 save                          # Save for auto-resurrect
 
 ---
 
-## 11. Task Scheduler
+## 12. Task Scheduler
 
 ```
 schtasks /query /tn "WhatsApp-MEGA-Sync"   # Check
 schtasks /run /tn "WhatsApp-MEGA-Sync"     # Run now
 schtasks /delete /tn "WhatsApp-MEGA-Sync" /f  # Remove
 ```
+
+---
+
+## 13. Upgrading to New Version
+
+### Yes, upgrading is very simple:
+``` 
+cd "C:\D\Whatsapp Sync"
+git pull origin master
+cd direct-sync
+npm install          # only if dependencies changed
+pm2 restart wa-mega-sync
+``` 
+That is it. No data loss, no reconfiguration.
+
+### Why upgrading is safe:
+| Item | Preserved during upgrade? |
+|------|---------------------------|
+| MEGA credentials (.env) | Yes, not in git |
+| Dedup hashes (hashes.json) | Yes, data folder untouched |
+| Excluded groups (excluded.json) | Yes, data folder untouched |
+| WhatsApp Web session (Edge) | Yes, browser not affected |
+| PM2 process config | Yes, ecosystem.config.js updated but saved |
+| Dashboard settings (toggles) | Resets to defaults (in-memory only) |
+
+### What changes during upgrade:
+- app.js (main application code)
+- index.html (dashboard UI)
+- startup scripts (if updated)
+- package.json (if new dependencies)
+
+### Rollback if upgrade breaks:
+``` 
+cd "C:\D\Whatsapp Sync"
+git log --oneline -5          # find last working commit
+git checkout <commit-hash> -- direct-sync/
+pm2 restart wa-mega-sync
+``` 
 
 ---
 
