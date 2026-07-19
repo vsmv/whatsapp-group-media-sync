@@ -18,3 +18,7 @@ direct-sync/ecosystem.config.js
 # Root convenience copies (canonical in direct-sync/)
 start-whatsapp-sync.bat
 start-whatsapp-sync-silent.vbs
+
+# Local-only documents
+direct-sync/PENDING_TASKS.md
+direct-sync/data/
